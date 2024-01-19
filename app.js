@@ -1,29 +1,45 @@
 const {MongoClient, ObjectId} = require("mongodb");
+const mongoose = require("mongoose");
 
 // Replace the uri string with your connection string.
-const uri = "mongodb://localhost:27017";
-const client = new MongoClient(uri);
+const uri = "mongodb://localhost:27017/fruitsDB";
 
+mongoose.connect(uri);
 
-async function run() {
-  try {
-    const db = client.db("fruitsDB");
-    const fruits = db.collection("fruits");
+const peopleSchema = new mongoose.Schema({
+  name:String,
+  age: Number
+});
+const fruitSchema = new mongoose.Schema({
+  name: String,
+  rating: Number,
+  review: String
+});
 
-    // query find data by objectId
-    const query = { "_id": new ObjectId("65a90a65bc1d365fc6a07d73") }
+const Person = mongoose.model("Person", peopleSchema);
+const Fruit = mongoose.model("Fruit", fruitSchema);
 
-    // Execute query
-    const cursor = fruits.find(query);
+const person = new Person({
+  name: "John",
+  age: 36
+});
 
-    console.log("Connected to the server.");
-    // Print returned documents
-    for await (const doc of cursor) {
-      console.dir(JSON.stringify(doc));
-    }
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+// person.save().then(()=>console.log("Person added"));
+
+const kiwi = new Fruit({
+  name: "kiwi",
+  rating: 10,
+  review: "The best fruit"
+});
+const orange = new Fruit({
+  name: "orange",
+  rating: 4,
+  review: "Sour taste"
+});
+const banana = new Fruit({
+  name: "banana",
+  rating: 3,
+  review: "weird texture"
+});
+
+Fruit.insertMany([kiwi, orange, banana]).then(()=>console.log("Successfully insert many"));
