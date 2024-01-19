@@ -42,4 +42,7 @@ const banana = new Fruit({
   review: "weird texture"
 });
 
-Fruit.insertMany([kiwi, orange, banana]).then(()=>console.log("Successfully insert many"));
+Fruit.insertMany([kiwi, orange, banana]).then((d) => {
+  console.log("successfully insert many");
+  console.log(d);
+});
