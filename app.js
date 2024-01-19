@@ -11,8 +11,15 @@ const peopleSchema = new mongoose.Schema({
   age: Number
 });
 const fruitSchema = new mongoose.Schema({
-  name: String,
-  rating: Number,
+  name: {
+    type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 10
+  },
   review: String
 });
 
@@ -41,11 +48,13 @@ const banana = new Fruit({
   rating: 3,
   review: "weird texture"
 });
+const peach = new Fruit({
+  name: "peach",
+  rating: 10,
+  review: "Peaches are so yummy !"
+});
 
-// Fruit.insertMany([kiwi, orange, banana]).then((d) => {
-//   console.log("successfully insert many");
-//   console.log(d);
-// });
+Fruit.insertMany([kiwi, orange, banana, peach]);
 
 Fruit.find({},"name").exec().then((fruits)=> {
   mongoose.connection.close();
