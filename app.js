@@ -48,6 +48,7 @@ const banana = new Fruit({
 // });
 
 Fruit.find({},"name").exec().then((fruits)=> {
+  mongoose.connection.close();
   fruits.forEach(fruit => {
     console.log(fruit.name);
   });
