@@ -6,14 +6,16 @@ const uri = "mongodb://localhost:27017/fruitsDB";
 
 mongoose.connect(uri);
 
-const peopleSchema = new mongoose.Schema({
-  name:String,
-  age: Number
-});
 const fruitSchema = new mongoose.Schema({
   name: String,
   rating: Number,
   review: String
+});
+
+const peopleSchema = new mongoose.Schema({
+  name:String,
+  age: Number,
+  favoriteFruit: fruitSchema
 });
 
 const Person = mongoose.model("Person", peopleSchema);
@@ -28,6 +30,21 @@ const person = new Person({
 //   mongoose.connection.close();
 //   console.log("Person added !");
 // });
+
+const pineapple = new Fruit({
+  name: "pineapple",
+  rating: 10,
+  review: "Great fruit."
+});
+pineapple.save().then(console.log("successfully added pineapple"),(e)=>console.log(e));;
+
+const amy = new Person({
+  name: "Amy",
+  age: 12,
+  favoriteFruit: pineapple
+});
+amy.save().then(console.log("successfully added amy"),(e)=>console.log(e));
+
 
 const kiwi = new Fruit({
   name: "kiwi",
@@ -74,8 +91,8 @@ const peach = new Fruit({
 //   console.log(fruits);
 // });
 
-Person.deleteMany({name: "John"}).then((persons)=> {
-  mongoose.connection.close();
-  console.log("Successfully delete many");
-  console.log(persons);
-});
+// Person.deleteMany({name: "John"}).then((persons)=> {
+//   mongoose.connection.close();
+//   console.log("Successfully delete many");
+//   console.log(persons);
+// });
