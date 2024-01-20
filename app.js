@@ -11,15 +11,8 @@ const peopleSchema = new mongoose.Schema({
   age: Number
 });
 const fruitSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  rating: {
-    type: Number,
-    min: 1,
-    max: 10
-  },
+  name: String,
+  rating: Number,
   review: String
 });
 
@@ -31,7 +24,10 @@ const person = new Person({
   age: 36
 });
 
-// person.save().then(()=>console.log("Person added"));
+// person.save().then(()=>{
+//   mongoose.connection.close();
+//   console.log("Person added !");
+// });
 
 const kiwi = new Fruit({
   name: "kiwi",
@@ -49,16 +45,37 @@ const banana = new Fruit({
   review: "weird texture"
 });
 const peach = new Fruit({
-  name: "peach",
   rating: 10,
   review: "Peaches are so yummy !"
 });
 
-Fruit.insertMany([kiwi, orange, banana, peach]);
+// Fruit.insertMany([kiwi, orange, banana, peach]).then((fruits)=> {
+//   mongoose.connection.close();
+//   console.log("insert successfully");
+//   console.log(fruits);
+// });
 
-Fruit.find({},"name").exec().then((fruits)=> {
+// Fruit.find({},"name").exec().then((fruits)=> {
+//   mongoose.connection.close();
+//   fruits.forEach(fruit => {
+//     console.log(fruit.name);
+//   });
+// });
+
+// Fruit.updateOne({_id: "65ab3ac329c80e14f93bb4ab"}, {name: "Peach"}).then((fruits) => {
+//   mongoose.connection.close();
+//   console.log("Succesfully updated !");
+//   console.log(fruits);
+// });
+
+// Fruit.deleteOne({_id: "65ab3ac329c80e14f93bb4ab"}).then((fruits) => {
+//   mongoose.connection.close();
+//   console.log("Successfully removed !");
+//   console.log(fruits);
+// });
+
+Person.deleteMany({name: "John"}).then((persons)=> {
   mongoose.connection.close();
-  fruits.forEach(fruit => {
-    console.log(fruit.name);
-  });
+  console.log("Successfully delete many");
+  console.log(persons);
 });
