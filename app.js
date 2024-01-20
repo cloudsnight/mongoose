@@ -36,14 +36,26 @@ const pineapple = new Fruit({
   rating: 10,
   review: "Great fruit."
 });
-pineapple.save().then(console.log("successfully added pineapple"),(e)=>console.log(e));;
+// pineapple.save().then(console.log("successfully added pineapple"),(e)=>console.log(e));
 
 const amy = new Person({
   name: "Amy",
   age: 12,
   favoriteFruit: pineapple
 });
-amy.save().then(console.log("successfully added amy"),(e)=>console.log(e));
+// amy.save().then(console.log("successfully added amy"),(e)=>console.log(e));
+
+const mango = new Fruit({
+  name: "mango",
+  rating: 6,
+  review: "Decent fruit"
+});
+mango.save().then(console.log("mango added !"));
+
+Person.updateOne({name: "John"}, {favoriteFruit: mango}).then(()=>{
+  mongoose.connection.close();
+  console.log("John updated !");
+});
 
 
 const kiwi = new Fruit({
